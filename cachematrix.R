@@ -1,8 +1,3 @@
-## Put comments here that give an overall description of what your
-## functions do
-
-## Write a short comment describing this function
-
 # Assignment 2: Chaching the inverse of a matrix
 # Ilane Hernandez Morales
 
@@ -35,7 +30,7 @@ makeCachematrix <- function(x = matrix()) {  #creates a function matrix
 # if existing. 
 # 
 
-cacheSolve <- function(x, ...) {
+cacheSolve <- function(x, y,...) {
       change <- NULL
       if (!identical(x$get(), y)) {             # Test if the matrix has changed
             x$set(y)                            # If TRUE Sets the new matrix in x
@@ -43,16 +38,27 @@ cacheSolve <- function(x, ...) {
             message("Matrix has changed, replacing cache data")
       } else {
             change <- FALSE
-      
-      
+      }
       mx <- x$getinvert()          #calls the 'getinvert' function associated with 'x'
       if(!is.null(mx)) {           #checks if the 'matrix' is the same as, if it is the same, it continious to...
-
             message("getting cached data") 
-            return(mx)
-      }
+            return(mx)}
       data <- x$get()             #calls the original matrix
       mx <- solve(data, ...)      #computes the inverse of matrix in "x"
       x$setinvert(mx)             #set the cache of a new inverted data
       mx                          #Prints the inverted matrix
 }
+
+
+#####
+# Example
+#
+# Invertible matrices
+invertible <- matrix(c(3,1,2,1,8,2,4,1,2,4,5,7,34,3,5,8), nrow = 4, ncol = 4)
+invertible2 <- matrix(c(24, 5, -4, -12, 3, 2, -2, -5, 4), nrow = 3, ncol = 3)
+
+x = makeCachematrix(invertible)
+cacheSolve(x, invertible)           # Scenario 1, cache empty
+cacheSolve(x, invertible)           # Scenario 2, inverted matrix in cache AND matrix has not changed
+cacheSolve(x, invertible2)          # Scenario 3, inverted matrix in cache BUT matrix has changed
+cacheSolve(x, invertible2)         # Again scenario 2
